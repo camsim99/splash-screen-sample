@@ -1,3 +1,6 @@
 <resources>
   <color name="blue">#FF9800</color>
+  <color name="logo_background">#034565</color>
+  <color name="windowBackground">#CFCFCF</color>
+  <color name="splashScreenBackground">#034565</color>
 </resources>

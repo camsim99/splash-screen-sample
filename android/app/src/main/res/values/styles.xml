@@ -1,18 +1,22 @@
 <resources>
   <!--  parent="@android:style/Theme.Light.NoTitleBar" -->
   <style name="LaunchTheme">
-    <!-- Show a splash screen on the activity. Automatically removed when
-         Flutter draws its first frame -->
-    <!-- <item name="android:windowSplashScreenBackground">@color/blue</item> 1 background-->
-    <item name="android:windowSplashScreenAnimatedIcon">@drawable/flutter_logo</item> 2 icon-->
-    <item name="android:windowSplashScreenIconBackgroundColor">@color/blue</item> <!-- icon background-->
-    <!--<item name ="android:windowSplashScreenAnimationDuration" >10</item>
-    <item name="android:windowSplashScreenBrandingImage">@drawable/flutter_logo</item> -->
 
-
+    <item name="windowSplashScreenBackground">@color/splashScreenBackground</item>
+    <item name="windowSplashScreenAnimatedIcon">@drawable/splashscreen_icon</item>
+    <item name="windowSplashScreenAnimationDuration">2000</item>
+    <item name="postSplashScreenTheme">@style/NormalTheme</item>
   </style>
 
   <style name="NormalTheme" parent="@android:style/Theme.Light.NoTitleBar">
     <item name="android:windowBackground">?android:colorBackground</item>
+  </style>
+
+
+  <style name="Anotherstyle" >
+    <item name="android:statusBarColor">@android:color/transparent</item>
+    <item name="android:navigationBarColor">@android:color/transparent</item>
+    <item name="android:windowDrawsSystemBarBackgrounds">true</item>
+    <item name="android:enforceNavigationBarContrast">false</item>
   </style>
 </resources>
