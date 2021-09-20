@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+  <scale xmlns:android="http://schemas.android.com/apk/res/android"
+      android:drawable="@drawable/flutter_logo"
+      android:scaleGravity="center_vertical|center_horizontal"
+      android:scaleHeight="50%"
+      android:scaleWidth="50%" />
+</selector>
