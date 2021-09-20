@@ -12,11 +12,4 @@
     <item name="android:windowBackground">?android:colorBackground</item>
   </style>
 
-
-  <style name="Anotherstyle" >
-    <item name="android:statusBarColor">@android:color/transparent</item>
-    <item name="android:navigationBarColor">@android:color/transparent</item>
-    <item name="android:windowDrawsSystemBarBackgrounds">true</item>
-    <item name="android:enforceNavigationBarContrast">false</item>
-  </style>
 </resources>
