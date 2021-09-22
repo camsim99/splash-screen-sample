@@ -1,4 +1,5 @@
 package com.example.splash_screen_sample
+import android.util.Log
 
 import android.os.Build
 import androidx.core.view.WindowCompat
@@ -80,6 +81,10 @@ class MainActivity : FlutterActivity() {
 ////    }
 //
 //    super.onCreate(savedInstanceState)
+
+//    splashScreen.setKeepVisibleCondition { false }
+//    setContentView(null);
+
   }
 
   /**
@@ -142,11 +147,13 @@ class MainActivity : FlutterActivity() {
     // Once the application is finished, we remove the splash screen from our view
     // hierarchy.
     animatorSet.doOnEnd { splashScreenViewProvider.remove() }
+    Log.d("TAGGGGGGGG", "START")
 
     waitForAnimatedIconToFinish(
       splashScreenViewProvider,
       splashScreenView
     ) { animatorSet.start() }
+    Log.d("TAGGGGGGGG", "END")
 
   }
 
