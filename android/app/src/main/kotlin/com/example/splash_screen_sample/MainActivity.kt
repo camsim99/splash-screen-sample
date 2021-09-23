@@ -16,6 +16,7 @@ import android.view.View
 import android.view.animation.AccelerateDecelerateInterpolator
 import android.view.animation.DecelerateInterpolator
 import android.widget.LinearLayout
+import android.widget.FrameLayout
 import androidx.activity.ComponentActivity
 import androidx.annotation.RequiresApi
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -29,10 +30,12 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.postDelayed
 import androidx.interpolator.view.animation.FastOutLinearInInterpolator
 import androidx.interpolator.view.animation.FastOutSlowInInterpolator
+import io.flutter.util.ViewUtils
+import android.view.ViewGroup
+
 
 class MainActivity : FlutterActivity() {
-//  private var appReady = false
-
+  
   override fun onCreate(savedInstanceState: Bundle?) {
 
     super.onCreate(savedInstanceState)
@@ -47,12 +50,17 @@ class MainActivity : FlutterActivity() {
     insetsController?.isAppearanceLightNavigationBars = true
     insetsController?.isAppearanceLightStatusBars = true
 
-//    // Aligns the Flutter view vertically with the window.
-//    WindowCompat.setDecorFitsSystemWindows(getWindow(), false)
 
     // The content view needs to set before calling setOnExitAnimationListener
     // to ensure that the SplashScreenView is attach to the right view root.
-     setContentView(R.layout.main_activity_2)
+    //    setContentView(R.layout.main_activity_2)
+
+    // Add FlutterView
+    val view = getWindow().getDecorView() as ViewGroup
+    val rootLayout= findViewById(android.R.id.content) as FrameLayout
+    View.inflate(this, R.layout.main_activity_2, rootLayout)
+
+
 
     ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.container)) { v, i ->
       val insets = i.getInsets(WindowInsetsCompat.Type.systemBars())
@@ -60,30 +68,12 @@ class MainActivity : FlutterActivity() {
       i.inset(insets)
     }
 
-    // (Optional) We can keep the splash screen visible until our app is ready.
-//    splashScreen.setKeepVisibleCondition { !appReady }
-
-//    // (Optional) Setting an OnExitAnimationListener on the SplashScreen indicates
+    // (Optional) Setting an OnExitAnimationListener on the SplashScreen indicates
     // to the system that the application will handle the exit animation.
-//    // The listener will be called once the app is ready.
+    // The listener will be called once the app is ready.
     splashScreen.setOnExitAnimationListener { splashScreenViewProvider ->
       onSplashScreenExit(splashScreenViewProvider)
     }
-
-//    Handler(Looper.getMainLooper())
-//      .postDelayed({ appReady = true }, splashScreen.)
-//
-////
-////    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-////      // Disable the Android splash screen fade out animation to avoid
-////      // a flicker before the similar frame is drawn in Flutter.
-////      splashScreen.setOnExitAnimationListener { splashScreenView -> splashScreenView.remove() }
-////    }
-//
-//    super.onCreate(savedInstanceState)
-
-//    splashScreen.setKeepVisibleCondition { false }
-//    setContentView(null);
 
   }
 
@@ -109,9 +99,6 @@ class MainActivity : FlutterActivity() {
     )
     translationY.duration = SPLASHSCREEN_TY_ANIMATION_DURATION.toLong()
     translationY.interpolator = accelerateInterpolator
-
-    // To get fancy, we'll also animate our content
-    //val marginAnimator = createContentAnimation()
 
     // And we play all of the animation together
     val animatorSet = AnimatorSet()
@@ -146,14 +133,16 @@ class MainActivity : FlutterActivity() {
 
     // Once the application is finished, we remove the splash screen from our view
     // hierarchy.
-    animatorSet.doOnEnd { splashScreenViewProvider.remove() }
-    Log.d("TAGGGGGGGG", "START")
+    animatorSet.doOnEnd {
+      splashScreenViewProvider.remove()
+      val rootLayout = findViewById(android.R.id.content) as FrameLayout
+      rootLayout.removeView(findViewById(R.id.container))
+    }
 
     waitForAnimatedIconToFinish(
       splashScreenViewProvider,
       splashScreenView
     ) { animatorSet.start() }
-    Log.d("TAGGGGGGGG", "END")
 
   }
 
@@ -176,8 +165,6 @@ class MainActivity : FlutterActivity() {
     iconAnimationDurationMillis - System.currentTimeMillis()
 
   private companion object {
-    const val MOCK_DELAY = 200
-    const val MARGIN_ANIMATION_DURATION = 800
     const val SPLASHSCREEN_ALPHA_ANIMATION_DURATION = 500
     const val SPLASHSCREEN_TY_ANIMATION_DURATION = 500
     const val WAIT_FOR_AVD_TO_FINISH = false
