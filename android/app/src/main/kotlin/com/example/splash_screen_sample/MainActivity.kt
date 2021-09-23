@@ -35,7 +35,7 @@ import android.view.ViewGroup
 
 
 class MainActivity : FlutterActivity() {
-  
+
   override fun onCreate(savedInstanceState: Bundle?) {
 
     super.onCreate(savedInstanceState)
@@ -127,6 +127,12 @@ class MainActivity : FlutterActivity() {
         iconView.visibility = View.GONE
         set2.applyTo(root)
       }
+//      else if (transitionStarted && i.animatedFraction == 1F) {
+//        val rootLayout = findViewById(android.R.id.content) as FrameLayout
+////        Log.d("REMOVE_ANIMATION_TAG", "animation removed")
+//      rootLayout.removeView(findViewById(R.id.container))
+//
+//      }
       splashScreenView.background.alpha = i.animatedValue as Int
     }
     alpha.addUpdateListener(function)
@@ -135,8 +141,9 @@ class MainActivity : FlutterActivity() {
     // hierarchy.
     animatorSet.doOnEnd {
       splashScreenViewProvider.remove()
-      val rootLayout = findViewById(android.R.id.content) as FrameLayout
-      rootLayout.removeView(findViewById(R.id.container))
+//      val rootLayout = findViewById(android.R.id.content) as FrameLayout
+////    Log.d("REMOVE_ANIMATION_TAG", "animation removed") //wrong place
+//      rootLayout.removeView(findViewById(R.id.container))
     }
 
     waitForAnimatedIconToFinish(

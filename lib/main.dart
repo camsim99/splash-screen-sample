@@ -68,11 +68,11 @@ class _MyHomePageState extends State<MyHomePage> {
     // fast, so that you can just rebuild anything that needs updating rather
     // than having to individually change instances of widgets.
     return Scaffold(
-      appBar: AppBar(
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
-        title: Text(widget.title),
-      ),
+      // appBar: AppBar(
+      //   // Here we take the value from the MyHomePage object that was created by
+      //   // the App.build method, and use it to set our appbar title.
+      //   title: Text(widget.title),
+      // ),
       body: Center(
         // Center is a layout widget. It takes a single child and positions it
         // in the middle of the parent.
@@ -91,8 +91,14 @@ class _MyHomePageState extends State<MyHomePage> {
           // center the children vertically; the main axis here is the vertical
           // axis because Columns are vertical (the cross axis would be
           // horizontal).
-          mainAxisAlignment: MainAxisAlignment.center,
+          // mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
+            // CustomAppBar(),
+            SizedBox(height:42),
+            Align(
+              alignment: Alignment.topCenter,
+                child: CustomAppBar()),
+            SizedBox(height: 250),
             Text(
               'You have pushed the button this many times:',
             ),
@@ -109,5 +115,35 @@ class _MyHomePageState extends State<MyHomePage> {
         child: Icon(Icons.add),
       ), // This trailing comma makes auto-formatting nicer for build methods.
     );
+  }
+}
+
+class CustomAppBar extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    Widget titleSection = Container(
+      child:
+          Expanded(
+            child: Row(
+              // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                SizedBox(width: 12),
+                Container(
+                  width: 72,
+                  height: 72,
+                  decoration: new BoxDecoration(
+                    color: Colors.orange,
+                    shape: BoxShape.circle,
+                  ),
+                ),
+                SizedBox(width:3),
+                Text("Super Splash Screen Demo",
+                    style: TextStyle(color: Colors.orange, fontSize: 24)),
+              ],
+            ),
+          ),
+
+      );
+    return titleSection;
   }
 }
