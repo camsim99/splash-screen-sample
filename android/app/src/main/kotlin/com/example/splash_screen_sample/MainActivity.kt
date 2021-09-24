@@ -141,9 +141,9 @@ class MainActivity : FlutterActivity() {
     // hierarchy.
     animatorSet.doOnEnd {
       splashScreenViewProvider.remove()
-//      val rootLayout = findViewById(android.R.id.content) as FrameLayout
-////    Log.d("REMOVE_ANIMATION_TAG", "animation removed") //wrong place
-//      rootLayout.removeView(findViewById(R.id.container))
+      val rootLayout = findViewById(android.R.id.content) as FrameLayout
+//    Log.d("REMOVE_ANIMATION_TAG", "animation removed") //wrong place
+      rootLayout.removeView(findViewById(R.id.container))
     }
 
     waitForAnimatedIconToFinish(

@@ -122,8 +122,6 @@ class CustomAppBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Widget titleSection = Container(
-      child:
-          Expanded(
             child: Row(
               // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
@@ -140,7 +138,6 @@ class CustomAppBar extends StatelessWidget {
                 Text("Super Splash Screen Demo",
                     style: TextStyle(color: Colors.orange, fontSize: 24)),
               ],
-            ),
           ),
 
       );
