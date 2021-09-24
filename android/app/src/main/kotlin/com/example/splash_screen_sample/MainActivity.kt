@@ -4,6 +4,9 @@ import android.util.Log
 import android.os.Build
 import androidx.core.view.WindowCompat
 import io.flutter.embedding.android.FlutterActivity
+import io.flutter.embedding.android.FlutterView
+import io.flutter.embedding.android.FlutterTextureView
+import io.flutter.embedding.android.FlutterSurfaceView
 import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
 import android.animation.ValueAnimator
@@ -32,9 +35,15 @@ import androidx.interpolator.view.animation.FastOutLinearInInterpolator
 import androidx.interpolator.view.animation.FastOutSlowInInterpolator
 import io.flutter.util.ViewUtils
 import android.view.ViewGroup
+import android.view.SurfaceView
+import android.view.TextureView
+import android.transition.Transition
 
 
 class MainActivity : FlutterActivity() {
+
+  var flutterUiReady : Boolean = false
+  var animationFinished : Boolean = false
 
   override fun onCreate(savedInstanceState: Bundle?) {
 
@@ -58,7 +67,12 @@ class MainActivity : FlutterActivity() {
     // Add FlutterView
     val view = getWindow().getDecorView() as ViewGroup
     val rootLayout= findViewById(android.R.id.content) as FrameLayout
+    //TODO: get first child, SurfaceView; set visibility GONE
+    val flutterView = rootLayout.getChildAt(0) as FlutterView
+//    val flutterSurfaceView = flutterView.getChildAt(0) as FlutterSurfaceView
     View.inflate(this, R.layout.main_activity_2, rootLayout)
+    flutterView.setVisibility(View.INVISIBLE)
+//    rootLayout.setVisibility(View.GONE)
 
 
 
@@ -75,6 +89,14 @@ class MainActivity : FlutterActivity() {
       onSplashScreenExit(splashScreenViewProvider)
     }
 
+  }
+
+  override fun onFlutterUiDisplayed(){
+    flutterUiReady = true
+  }
+
+  override fun onFlutterUiNoLongerDisplayed(){
+    flutterUiReady = false
   }
 
   /**
@@ -118,6 +140,21 @@ class MainActivity : FlutterActivity() {
     val autoTransition = AutoTransition().apply {
       interpolator = AccelerateDecelerateInterpolator()
     }
+    autoTransition.addListener(object: Transition.TransitionListener {
+      override fun onTransitionEnd(transition: Transition) {
+        val rootLayout = findViewById(android.R.id.content) as FrameLayout
+        val flutterView = rootLayout.getChildAt(0) as FlutterView
+        rootLayout.removeView(findViewById(R.id.container))
+        if (flutterUiReady) {
+          flutterView.setVisibility(View.VISIBLE)
+        }
+        animationFinished = true
+    }
+      override fun onTransitionCancel(transition: Transition){}
+      override fun onTransitionPause(transition: Transition) {}
+      override fun onTransitionResume(transition: Transition) {}
+      override fun onTransitionStart(transition: Transition) {}
+    })
 
     val function: (ValueAnimator) -> Unit = { i ->
       if (!transitionStarted && i.animatedFraction > 0.5) {
@@ -141,9 +178,13 @@ class MainActivity : FlutterActivity() {
     // hierarchy.
     animatorSet.doOnEnd {
       splashScreenViewProvider.remove()
-      val rootLayout = findViewById(android.R.id.content) as FrameLayout
-//    Log.d("REMOVE_ANIMATION_TAG", "animation removed") //wrong place
-      rootLayout.removeView(findViewById(R.id.container))
+//      val rootLayout = findViewById(android.R.id.content) as FrameLayout
+//      val flutterView = rootLayout.getChildAt(0) as FlutterView
+//      rootLayout.removeView(findViewById(R.id.container))
+//      if (flutterUiReady) {
+//        flutterView.setVisibility(View.VISIBLE)
+//      }
+//      animationFinished = true
     }
 
     waitForAnimatedIconToFinish(

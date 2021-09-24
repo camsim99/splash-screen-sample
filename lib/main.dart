@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
-void main() {
+Future<void> main() async {
+  //TODO: add latency here to simulate app building
   runApp(MyApp());
 }
 
@@ -94,10 +95,8 @@ class _MyHomePageState extends State<MyHomePage> {
           // mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             // CustomAppBar(),
-            SizedBox(height:42),
-            Align(
-              alignment: Alignment.topCenter,
-                child: CustomAppBar()),
+            SizedBox(height: 42),
+            Align(alignment: Alignment.topCenter, child: CustomAppBar()),
             SizedBox(height: 250),
             Text(
               'You have pushed the button this many times:',
@@ -122,25 +121,25 @@ class CustomAppBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Widget titleSection = Container(
-            child: Row(
-              // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                SizedBox(width: 12),
-                Container(
-                  width: 72,
-                  height: 72,
-                  decoration: new BoxDecoration(
-                    color: Colors.orange,
-                    shape: BoxShape.circle,
-                  ),
-                ),
-                SizedBox(width:3),
-                Text("Super Splash Screen Demo",
-                    style: TextStyle(color: Colors.orange, fontSize: 24)),
-              ],
+      child: Row(
+        // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: [
+          SizedBox(width: 12),
+          ClipRRect(
+            borderRadius: BorderRadius.circular(8.0),
+            child: Image.asset(
+              'images/android_robot.png',
+              width: 65.0,
+              height: 42.0,
+              fit: BoxFit.fill,
+            )
           ),
-
-      );
+          SizedBox(width: 3),
+          Text("Super Splash Screen Demo",
+              style: TextStyle(color: Colors.black54, fontSize: 24)),
+        ],
+      ),
+    );
     return titleSection;
   }
 }
