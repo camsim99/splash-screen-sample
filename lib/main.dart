@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 
 Future<void> main() async {
-  //TODO: add latency here to simulate app building
-  Future.delayed(Duration(seconds: 5), ()
-  {
+  Future.delayed(Duration(seconds: 5), () {
     runApp(MyApp());
   });
 }
@@ -129,14 +127,13 @@ class CustomAppBar extends StatelessWidget {
         children: [
           SizedBox(width: 12),
           ClipRRect(
-            borderRadius: BorderRadius.circular(8.0),
-            child: Image.asset(
-              'images/android_robot.png',
-              width: 60.0,
-              height: 40.0,
-              fit: BoxFit.fill,
-            )
-          ),
+              borderRadius: BorderRadius.circular(36.0),
+              child: Image.asset(
+                'images/ic_launcher.png',
+                width: 72.0,
+                height: 72.0,
+                fit: BoxFit.fill,
+              )),
           SizedBox(width: 3),
           Text("Super Splash Screen Demo",
               style: TextStyle(color: Colors.black54, fontSize: 24)),
