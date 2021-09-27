@@ -129,8 +129,8 @@ class CustomAppBar extends StatelessWidget {
             borderRadius: BorderRadius.circular(8.0),
             child: Image.asset(
               'images/android_robot.png',
-              width: 65.0,
-              height: 42.0,
+              width: 60.0,
+              height: 40.0,
               fit: BoxFit.fill,
             )
           ),

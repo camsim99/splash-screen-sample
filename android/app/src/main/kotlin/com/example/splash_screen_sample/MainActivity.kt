@@ -1,48 +1,33 @@
 package com.example.splash_screen_sample
 import android.util.Log
 
-import android.os.Build
 import androidx.core.view.WindowCompat
 import io.flutter.embedding.android.FlutterActivity
-import io.flutter.embedding.android.FlutterView
-import io.flutter.embedding.android.FlutterTextureView
-import io.flutter.embedding.android.FlutterSurfaceView
 import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
 import android.animation.ValueAnimator
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import android.transition.AutoTransition
 import android.transition.TransitionManager
 import android.view.View
 import android.view.animation.AccelerateDecelerateInterpolator
-import android.view.animation.DecelerateInterpolator
-import android.widget.LinearLayout
 import android.widget.FrameLayout
-import androidx.activity.ComponentActivity
-import androidx.annotation.RequiresApi
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.constraintlayout.widget.ConstraintSet
 import androidx.core.animation.doOnEnd
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.splashscreen.SplashScreenViewProvider
 import androidx.core.view.ViewCompat
-//import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.postDelayed
 import androidx.interpolator.view.animation.FastOutLinearInInterpolator
-import androidx.interpolator.view.animation.FastOutSlowInInterpolator
-import io.flutter.util.ViewUtils
-import android.view.ViewGroup
-import android.view.SurfaceView
-import android.view.TextureView
 import android.transition.Transition
+import android.animation.Animator
 
 
 class MainActivity : FlutterActivity() {
 
-  var flutterUiReady : Boolean = false
+  var flutterUIReady : Boolean = false
   var animationFinished : Boolean = false
 
   override fun onCreate(savedInstanceState: Bundle?) {
@@ -65,14 +50,8 @@ class MainActivity : FlutterActivity() {
     //    setContentView(R.layout.main_activity_2)
 
     // Add FlutterView
-    val view = getWindow().getDecorView() as ViewGroup
     val rootLayout= findViewById(android.R.id.content) as FrameLayout
-    //TODO: get first child, SurfaceView; set visibility GONE
-    val flutterView = rootLayout.getChildAt(0) as FlutterView
-//    val flutterSurfaceView = flutterView.getChildAt(0) as FlutterSurfaceView
     View.inflate(this, R.layout.main_activity_2, rootLayout)
-    flutterView.setVisibility(View.INVISIBLE)
-//    rootLayout.setVisibility(View.GONE)
 
 
 
@@ -91,12 +70,37 @@ class MainActivity : FlutterActivity() {
 
   }
 
+  /**
+   * Controls flutterUIReady variable that determines when to hide splash screen animation
+   */
   override fun onFlutterUiDisplayed(){
-    flutterUiReady = true
+    flutterUIReady = true
+
+    if (animationFinished) {
+      hideSplashScreenAnimation()
+    }
   }
 
   override fun onFlutterUiNoLongerDisplayed(){
-    flutterUiReady = false
+    flutterUIReady = false
+  }
+
+  /**
+   * Hides the splash screen animation when finished and Flutter UI has loaded
+   */
+  fun hideSplashScreenAnimation(){
+    val splashView = findViewById(R.id.container) as ConstraintLayout
+    splashView
+      .animate()
+      .alpha(0.0f)
+      .setDuration(SPLASHSCREEN_FINAL_ANIMATION_ALPHA_ANIMATION_DURATION)
+      .setListener(
+        object: Animator.AnimatorListener {
+          override fun onAnimationStart(animation: Animator) {}
+          override fun onAnimationEnd(animation: Animator) {}
+          override fun onAnimationCancel(animation: Animator) {}
+          override fun onAnimationRepeat(animation: Animator) {}
+        })
   }
 
   /**
@@ -142,11 +146,8 @@ class MainActivity : FlutterActivity() {
     }
     autoTransition.addListener(object: Transition.TransitionListener {
       override fun onTransitionEnd(transition: Transition) {
-        val rootLayout = findViewById(android.R.id.content) as FrameLayout
-        val flutterView = rootLayout.getChildAt(0) as FlutterView
-        rootLayout.removeView(findViewById(R.id.container))
-        if (flutterUiReady) {
-          flutterView.setVisibility(View.VISIBLE)
+        if (flutterUIReady) {
+          hideSplashScreenAnimation()
         }
         animationFinished = true
     }
@@ -164,12 +165,6 @@ class MainActivity : FlutterActivity() {
         iconView.visibility = View.GONE
         set2.applyTo(root)
       }
-//      else if (transitionStarted && i.animatedFraction == 1F) {
-//        val rootLayout = findViewById(android.R.id.content) as FrameLayout
-////        Log.d("REMOVE_ANIMATION_TAG", "animation removed")
-//      rootLayout.removeView(findViewById(R.id.container))
-//
-//      }
       splashScreenView.background.alpha = i.animatedValue as Int
     }
     alpha.addUpdateListener(function)
@@ -178,13 +173,6 @@ class MainActivity : FlutterActivity() {
     // hierarchy.
     animatorSet.doOnEnd {
       splashScreenViewProvider.remove()
-//      val rootLayout = findViewById(android.R.id.content) as FrameLayout
-//      val flutterView = rootLayout.getChildAt(0) as FlutterView
-//      rootLayout.removeView(findViewById(R.id.container))
-//      if (flutterUiReady) {
-//        flutterView.setVisibility(View.VISIBLE)
-//      }
-//      animationFinished = true
     }
 
     waitForAnimatedIconToFinish(
@@ -197,6 +185,9 @@ class MainActivity : FlutterActivity() {
   /**
    * Wait until the AVD animation is finished before starting the splash screen dismiss animation
    */
+  private fun SplashScreenViewProvider.remainingAnimationDuration() = iconAnimationStartMillis +
+    iconAnimationDurationMillis - System.currentTimeMillis()
+
   private fun waitForAnimatedIconToFinish(
     splashScreenViewProvider: SplashScreenViewProvider,
     view: View,
@@ -209,12 +200,10 @@ class MainActivity : FlutterActivity() {
     view.postDelayed(delayMillis, onAnimationFinished)
   }
 
-  private fun SplashScreenViewProvider.remainingAnimationDuration() = iconAnimationStartMillis +
-    iconAnimationDurationMillis - System.currentTimeMillis()
-
   private companion object {
     const val SPLASHSCREEN_ALPHA_ANIMATION_DURATION = 500
     const val SPLASHSCREEN_TY_ANIMATION_DURATION = 500
+    const val SPLASHSCREEN_FINAL_ANIMATION_ALPHA_ANIMATION_DURATION = 250
     const val WAIT_FOR_AVD_TO_FINISH = false
   }
 }
