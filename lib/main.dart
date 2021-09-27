@@ -134,9 +134,14 @@ class CustomAppBar extends StatelessWidget {
                 height: 72.0,
                 fit: BoxFit.fill,
               )),
-          SizedBox(width: 3),
-          Text("Super Splash Screen Demo",
-              style: TextStyle(color: Colors.black54, fontSize: 24)),
+          SizedBox(width: 4),
+          Column(
+            children: [
+              SizedBox(height: 3),
+              Text("Super Splash Screen Demo",
+                  style: TextStyle(color: Colors.black54, fontSize: 24)),
+            ],
+          ),
         ],
       ),
     );
