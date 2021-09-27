@@ -2,7 +2,10 @@ import 'package:flutter/material.dart';
 
 Future<void> main() async {
   //TODO: add latency here to simulate app building
-  runApp(MyApp());
+  Future.delayed(Duration(seconds: 5), ()
+  {
+    runApp(MyApp());
+  });
 }
 
 class MyApp extends StatelessWidget {

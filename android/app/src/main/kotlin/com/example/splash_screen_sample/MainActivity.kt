@@ -146,10 +146,11 @@ class MainActivity : FlutterActivity() {
     }
     autoTransition.addListener(object: Transition.TransitionListener {
       override fun onTransitionEnd(transition: Transition) {
+        animationFinished = true
+
         if (flutterUIReady) {
           hideSplashScreenAnimation()
         }
-        animationFinished = true
     }
       override fun onTransitionCancel(transition: Transition){}
       override fun onTransitionPause(transition: Transition) {}
@@ -203,7 +204,7 @@ class MainActivity : FlutterActivity() {
   private companion object {
     const val SPLASHSCREEN_ALPHA_ANIMATION_DURATION = 500
     const val SPLASHSCREEN_TY_ANIMATION_DURATION = 500
-    const val SPLASHSCREEN_FINAL_ANIMATION_ALPHA_ANIMATION_DURATION = 250
+    const val SPLASHSCREEN_FINAL_ANIMATION_ALPHA_ANIMATION_DURATION = 250 as Long
     const val WAIT_FOR_AVD_TO_FINISH = false
   }
 }
