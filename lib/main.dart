@@ -70,11 +70,12 @@ class _MyHomePageState extends State<MyHomePage> {
 class CustomAppBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    Widget titleSection = Container(
-      child: Row(
-        children: [
-          SizedBox(width: 12),
-          ClipRRect(
+    Widget titleSection = Row(
+      children: [
+        // SizedBox(width: 12),
+        Padding(
+          padding: EdgeInsets.only(left: 12, right: 4),
+          child: ClipRRect(
               borderRadius: BorderRadius.circular(36.0),
               child: Image.asset(
                 'images/androidIcon6.png',
@@ -82,16 +83,13 @@ class CustomAppBar extends StatelessWidget {
                 height: 72.0,
                 fit: BoxFit.fill,
               )),
-          SizedBox(width: 4),
-          Column(
-            children: [
-              SizedBox(height: 3),
-              Text("Super Splash Screen Demo",
-                  style: TextStyle(color: Colors.black54, fontSize: 24)),
-            ],
-          ),
-        ],
-      ),
+        ),
+        Padding(
+          padding: EdgeInsets.only(top: 3),
+          child: Text("Super Splash Screen Demo",
+              style: TextStyle(color: Colors.black54, fontSize: 24)),
+        ),
+      ],
     );
     return titleSection;
   }
