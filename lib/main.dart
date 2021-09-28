@@ -4,6 +4,7 @@ Future<void> main() async {
   runApp(MyApp());
 }
 
+// Main app that contains the Flutter starter app
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -64,6 +65,8 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 }
 
+// A Flutter implementation of the last frame of the splashscreen animation
+// that will display at the top of the Flutter starter app upon it loading
 class CustomAppBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
