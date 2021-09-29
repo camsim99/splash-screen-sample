@@ -77,7 +77,7 @@ class CustomAppBar extends StatelessWidget {
           child: ClipRRect(
               borderRadius: BorderRadius.circular(36.0),
               child: Image.asset(
-                'images/androidIcon6.png',
+                'images/androidIcon.png',
                 width: 72.0,
                 height: 72.0,
                 fit: BoxFit.fill,
