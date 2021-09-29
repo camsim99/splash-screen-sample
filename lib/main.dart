@@ -65,8 +65,7 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 }
 
-// A Flutter implementation of the last frame of the splashscreen animation
-// that will display at the top of the Flutter starter app upon it loading
+/* A Flutter implementation of the last frame of the splashscreen animation */
 class CustomAppBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
