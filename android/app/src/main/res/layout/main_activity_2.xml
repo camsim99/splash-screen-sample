@@ -14,6 +14,8 @@
   ~ limitations under the License.
   -->
 
+<!-- This layout is the final frame of the interpolation animation. -->
+
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"

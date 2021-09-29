@@ -1,5 +1,4 @@
 package com.example.splash_screen_sample
-import android.util.Log
 
 import androidx.core.view.WindowCompat
 import io.flutter.embedding.android.FlutterActivity
