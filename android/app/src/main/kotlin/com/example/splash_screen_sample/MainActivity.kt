@@ -27,7 +27,7 @@ import android.animation.Animator
 class MainActivity : FlutterActivity() {
 
   var flutterUIReady : Boolean = false
-  var animationFinished : Boolean = false
+  var initialAnimationFinished : Boolean = false
 
   override fun onCreate(savedInstanceState: Bundle?) {
 
@@ -46,12 +46,8 @@ class MainActivity : FlutterActivity() {
 
     // The content view needs to set before calling setOnExitAnimationListener
     // to ensure that the SplashScreenView is attach to the right view root.
-    //    setContentView(R.layout.main_activity_2)
-
-    // Add FlutterView
     val rootLayout= findViewById(android.R.id.content) as FrameLayout
     View.inflate(this, R.layout.main_activity_2, rootLayout)
-
 
 
     ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.container)) { v, i ->
@@ -60,7 +56,7 @@ class MainActivity : FlutterActivity() {
       i.inset(insets)
     }
 
-    // (Optional) Setting an OnExitAnimationListener on the SplashScreen indicates
+    // Setting an OnExitAnimationListener on the splash screen indicates
     // to the system that the application will handle the exit animation.
     // The listener will be called once the app is ready.
     splashScreen.setOnExitAnimationListener { splashScreenViewProvider ->
@@ -69,13 +65,10 @@ class MainActivity : FlutterActivity() {
 
   }
 
-  /**
-   * Controls flutterUIReady variable that determines when to hide splash screen animation
-   */
   override fun onFlutterUiDisplayed(){
     flutterUIReady = true
 
-    if (animationFinished) {
+    if (initialAnimationFinished) {
       hideSplashScreenAnimation()
     }
   }
@@ -85,9 +78,9 @@ class MainActivity : FlutterActivity() {
   }
 
   /**
-   * Hides the splash screen animation when finished and Flutter UI has loaded
+   * Hides the splash screen only when the entire animation has finished and the Flutter UI is ready to display
    */
-  fun hideSplashScreenAnimation(){
+  private fun hideSplashScreenAnimation(){
     val splashView = findViewById(R.id.container) as ConstraintLayout
     splashView
       .animate()
@@ -145,7 +138,7 @@ class MainActivity : FlutterActivity() {
     }
     autoTransition.addListener(object: Transition.TransitionListener {
       override fun onTransitionEnd(transition: Transition) {
-        animationFinished = true
+        initialAnimationFinished = true
 
         if (flutterUIReady) {
           hideSplashScreenAnimation()
